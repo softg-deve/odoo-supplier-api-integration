@@ -64,7 +64,12 @@ Requirements
     'external_dependencies': {
         'python': ['requests', 'Pillow'],
     },
-    'images': ['static/description/icon.png'],
+    # 'images': ['static/description/icon.png'],
+    'images': [
+        'static/description/banner.png'
+    ],
+    'icon': 'static/description/icon.png',
+
     'post_init_hook': 'post_init_hook',
     'pre_uninstall_hook': 'pre_uninstall_hook',
     'price': 249.00,
