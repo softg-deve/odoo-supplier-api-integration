@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_csv_choice_wizard_form" model="ir.ui.view">
+        <field name="name">csv.choice.wizard.form</field>
+        <field name="model">csv.choice.wizard</field>
+        <field name="arch" type="xml">
+            <form string="CSV Options">
+                
+                <!-- <group>
+                    <div class="alert alert-info text-center" role="alert">
+                        <h4>
+                            <i class="fa fa-file-excel-o text-success"></i>
+                            CSV Ready!
+                        </h4>
+                        <p class="mb-0">
+                            <strong><field name="category_name" readonly="1"/></strong>
+                            <br/>
+                            <field name="product_count" readonly="1"/> products
+                        </p>
+                    </div>
+                </group> -->
+                <div class="oe_title text-center">
+                    <div class="alert alert-info" role="alert" style="padding:20px;">
+                        <h4 style="margin-bottom:10px;">
+                            <i class="fa fa-file-excel-o text-success"/>
+                                CSV Ready!
+                        </h4>
+                        <div>
+                            <strong>
+                                <field name="category_name" readonly="1"/>
+                            </strong>
+                            <span> - </span>
+                            <field name="product_count" readonly="1"/>
+                            <span> products</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <group invisible="1">
+                    <field name="category_id"/>
+                    <field name="csv_data"/>
+                    <field name="csv_filename"/>
+                </group>
+                
+                <footer>
+                    
+                    <button name="action_view_online" 
+                            string="View Online" 
+                            type="object" 
+                            class="btn-primary btn-lg"
+                            help="Open in Google Sheets"/>
+                    
+                    <button name="action_download" 
+                            string="Download CSV File" 
+                            type="object" 
+                            class="btn-success btn-lg"
+                            help="Download CSV file"/>
+                    
+                    <button string="Cancel" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                    
+                </footer>
+                
+            </form>
+        </field>
+    </record>
+    
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_supplier_api_root"
+              name="Suppliers API"
+              parent="stock.menu_stock_config_settings"
+              sequence="100"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_supplier_api_config"
+              name="API TME"
+              parent="menu_supplier_api_root"
+              action="action_supplier_api_config"
+              sequence="10"/>
+</odoo>

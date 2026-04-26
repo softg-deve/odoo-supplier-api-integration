@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_supplier_stock_info_wizard_form" model="ir.ui.view">
+        <field name="name">supplier.stock.info.wizard.form</field>
+        <field name="model">supplier.stock.info.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Supplier Stock Information">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="product_name" readonly="1"/>
+                        </h1>
+                        <h2 class="text-success">
+                            <field name="supplier_stock_qty" readonly="1"/> units
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group>
+                            <label for="supplier_stock_qty" string="Supplier Stock"/>
+                            <div>
+                                <field name="supplier_stock_qty"
+                                       class="oe_inline font-weight-bold text-success"
+                                       readonly="1"/>
+                                <span class="oe_inline"> units</span>
+                            </div>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Supplier Details" name="suppliers">
+                            <field name="supplier_info_ids" nolabel="1">
+                                <tree create="false" delete="false" edit="false">
+                                    <field name="partner_id" string="Supplier"/>
+                                    <field name="product_code" string="Supplier SKU"/>
+                                    <field name="api_stock_quantity"
+                                           string="Stock"
+                                           decoration-success="api_stock_quantity &gt; 0"/>
+                                    <field name="price" string="Cost Price"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <div class="alert alert-info" role="alert">
+                        <h5><i class="fa fa-info-circle"></i> About Supplier Stock</h5>
+                        <p class="mb-0">
+                            <strong>Supplier Stock:</strong> Stock available at the supplier (via API)<br/>
+                            <strong>Note:</strong> This stock is <strong>virtual</strong> —
+                            it does not physically exist in your warehouse.<br/>
+                            <strong>Forecast:</strong> Odoo automatically calculates:
+                            <code>On Hand + Supplier Stock</code>
+                        </p>
+                    </div>
+                </sheet>
+
+                <footer>
+                    <button string="Close" class="btn-primary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

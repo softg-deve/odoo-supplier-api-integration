@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_update_stock_prices" model="ir.cron">
+        <field name="name">Supplier API: Update Stock &amp; Prices (Hourly)</field>
+        <field name="model_id" ref="supplier_api_integration.model_supplier_api_config"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_update_stock_and_prices()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="ir_cron_full_sync" model="ir.cron">
+        <field name="name">Supplier API: Full Sync (Daily 2AM)</field>
+        <field name="model_id" ref="supplier_api_integration.model_supplier_api_config"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_full_sync()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+        <field name="priority">10</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0, second=0))"/>
+    </record>
+
+</odoo>

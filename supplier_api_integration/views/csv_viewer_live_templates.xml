@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="csv_viewer_live" name="Live CSV Viewer">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+
+                <!-- ── Sticky header ── -->
+                <section class="bg-white border-bottom" style="position: sticky; top: 0; z-index: 100;">
+                    <div class="container-fluid py-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb mb-2" style="background: none; padding: 0;">
+                                        <li class="breadcrumb-item">
+                                            <a href="/web">
+                                                <i class="fa fa-home"></i> Odoo
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <t t-esc="supplier.name"/>
+                                        </li>
+                                        <li class="breadcrumb-item active">
+                                            <t t-esc="category.complete_name"/>
+                                        </li>
+                                    </ol>
+                                </nav>
+                                <h4 class="mb-0">
+                                    <i class="fa fa-table text-success"></i>
+                                    <t t-esc="category.complete_name"/>
+                                </h4>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <button class="btn btn-success" onclick="downloadCSV()">
+                                    <i class="fa fa-download"></i> Download CSV
+                                </button>
+                                <span class="ml-3 text-muted">
+                                    <small>
+                                        <i class="fa fa-clock-o"></i>
+                                        Last updated: <span id="lastUpdate">just now</span>
+                                        — auto-refresh in <span id="countdown">30s</span>
+                                    </small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Search bar ── -->
+                <section class="bg-light py-2">
+                    <div class="container-fluid">
+                        <input type="text"
+                               id="searchInput"
+                               class="form-control form-control-lg"
+                               placeholder="Search by Symbol, Name, Barcode, Manufacturer..."
+                               onkeyup="filterTable()"
+                               style="max-width: 800px; margin: 0 auto;"/>
+                    </div>
+                </section>
+
+                <!-- ── Products table ── -->
+                <section class="pb-4">
+                    <div class="container-fluid">
+                        <div class="card shadow-sm mt-3">
+                            <div class="card-body p-0">
+                                <div class="table-responsive" style="max-height: calc(100vh - 300px); overflow-y: auto;">
+                                    <table class="table table-hover table-striped mb-0" id="productsTable">
+                                        <thead class="thead-dark" style="position: sticky; top: 0; z-index: 10;">
+                                            <tr>
+                                                <th onclick="sortTable(0)" style="cursor:pointer; white-space: nowrap;">
+                                                    Symbol <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th onclick="sortTable(1)" style="cursor:pointer;">
+                                                    Name <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th onclick="sortTable(2)" style="cursor:pointer;">
+                                                    Manufacturer <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th onclick="sortTable(3)" style="cursor:pointer;">
+                                                    Barcode <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th onclick="sortTable(4)" style="cursor:pointer; text-align:right;">
+                                                    Stock <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th onclick="sortTable(5)" style="cursor:pointer; text-align:right;">
+                                                    Cost <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th onclick="sortTable(6)" style="cursor:pointer; text-align:right;">
+                                                    Sale <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th style="text-align:center;">Currency</th>
+                                                <th onclick="sortTable(8)" style="cursor:pointer; text-align:right;">
+                                                    Weight <i class="fa fa-sort"></i>
+                                                </th>
+                                                <th style="text-align:center;">Status</th>
+                                                <th style="text-align:center;">Image</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="products" t-as="product">
+                                                <tr t-attf-class="#{product['exists'] and 'table-success' or ''}">
+                                                    <td style="white-space: nowrap;">
+                                                        <strong><t t-esc="product['symbol']"/></strong>
+                                                    </td>
+                                                    <td><t t-esc="product['name']"/></td>
+                                                    <td><t t-esc="product['manufacturer']"/></td>
+                                                    <td>
+                                                        <code style="font-size: 11px;"><t t-esc="product['barcode']"/></code>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <span t-attf-class="badge #{product['stock'] > 0 and 'badge-success' or 'badge-secondary'}">
+                                                            <t t-esc="product['stock']"/>
+                                                        </span>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <strong><t t-esc="product['cost']"/></strong>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <t t-esc="product['sale']"/>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <t t-esc="product['currency']"/>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <small><t t-esc="product['weight']"/> kg</small>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <span t-if="product['exists']" class="badge badge-success">
+                                                            In Odoo
+                                                        </span>
+                                                        <span t-else="" class="badge badge-warning">
+                                                            New
+                                                        </span>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <t t-if="product['photo']">
+                                                            <a t-attf-href="#{product['photo']}"
+                                                               target="_blank"
+                                                               class="btn btn-sm btn-outline-info">
+                                                                <i class="fa fa-image"></i>
+                                                            </a>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span class="text-muted">-</span>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Footer info -->
+                                <div class="p-3 bg-light border-top text-center">
+                                    <span id="tableInfo">
+                                        Showing <strong><t t-esc="total_count"/></strong> products
+                                        <t t-if="total_available &gt; total_count">
+                                            (limited to <t t-esc="total_count"/> of <t t-esc="total_available"/> available)
+                                        </t>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <script type="text/javascript">
+            <![CDATA[
+                // ── SEARCH / FILTER ──────────────────────────────────
+                function filterTable() {
+                    const input = document.getElementById('searchInput');
+                    const filter = input.value.toUpperCase();
+                    const table = document.getElementById('productsTable');
+                    const tr = table.getElementsByTagName('tr');
+                    let visibleCount = 0;
+
+                    for (let i = 1; i < tr.length; i++) {
+                        let found = false;
+                        const td = tr[i].getElementsByTagName('td');
+
+                        for (let j = 0; j < td.length; j++) {
+                            const txtValue = td[j].textContent || td[j].innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        tr[i].style.display = found ? '' : 'none';
+                        if (found) visibleCount++;
+                    }
+
+                    document.getElementById('tableInfo').innerHTML =
+                        'Showing <strong>' + visibleCount + '</strong> of <strong>' + ]]><t t-esc="total_count"/><![CDATA[ + '</strong> products';
+                }
+
+                // ── SORT TABLE ───────────────────────────────────────
+                let sortDirection = {};
+                function sortTable(columnIndex) {
+                    const table = document.getElementById('productsTable');
+                    const rows = Array.from(table.rows).slice(1);
+
+                    sortDirection[columnIndex] = !sortDirection[columnIndex];
+                    const ascending = sortDirection[columnIndex];
+
+                    rows.sort((a, b) => {
+                        let aVal = a.cells[columnIndex].textContent.trim();
+                        let bVal = b.cells[columnIndex].textContent.trim();
+
+                        const aNum = parseFloat(aVal.replace(/[^0-9.-]/g, ''));
+                        const bNum = parseFloat(bVal.replace(/[^0-9.-]/g, ''));
+
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return ascending ? aNum - bNum : bNum - aNum;
+                        }
+                        return ascending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                    });
+
+                    rows.forEach(row => table.tBodies[0].appendChild(row));
+                }
+
+                // ── EXPORT CSV ───────────────────────────────────────
+                function downloadCSV() {
+                    const table = document.getElementById('productsTable');
+                    let csv = [];
+
+                    // Headers (exclude Image column)
+                    const headers = Array.from(table.rows[0].cells)
+                        .slice(0, -1)
+                        .map(cell => cell.textContent.trim().replace(/\s+/g, ' '));
+                    csv.push(headers.join(','));
+
+                    // Visible rows only
+                    for (let i = 1; i < table.rows.length; i++) {
+                        if (table.rows[i].style.display !== 'none') {
+                            const row = Array.from(table.rows[i].cells)
+                                .slice(0, -1)
+                                .map(cell => {
+                                    let text = cell.textContent.trim().replace(/\s+/g, ' ');
+                                    return '"' + text.replace(/"/g, '""') + '"';
+                                });
+                            csv.push(row.join(','));
+                        }
+                    }
+
+                    const csvContent = csv.join('\n');
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    const filename = ']]><t t-esc="category.name.replace('/', '-')"/><![CDATA[_' +
+                                   new Date().toISOString().split('T')[0] + '.csv';
+
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                }
+
+                // ── AUTO-REFRESH & COUNTDOWN ─────────────────────────
+                let refreshInterval = 30;
+                let countdown = refreshInterval;
+
+                setInterval(function() {
+                    countdown--;
+                    if (countdown <= 0) {
+                        window.location.reload();
+                    }
+                    document.getElementById('countdown').textContent = countdown + 's';
+                }, 1000);
+
+                // ── INIT ─────────────────────────────────────────────
+                window.addEventListener('load', function() {
+                    document.getElementById('searchInput').focus();
+                    document.getElementById('lastUpdate').textContent =
+                        new Date().toLocaleTimeString();
+                });
+            ]]>
+            </script>
+
+            <style>
+                .table th {
+                    background-color: #343a40 !important;
+                    color: white !important;
+                    font-weight: 600;
+                    padding: 12px 8px;
+                }
+                .table td {
+                    padding: 10px 8px;
+                    vertical-align: middle;
+                }
+                .table-hover tbody tr:hover {
+                    background-color: rgba(0, 123, 255, 0.1) !important;
+                }
+                .table-success {
+                    background-color: rgba(40, 167, 69, 0.1) !important;
+                }
+                code {
+                    background-color: #f8f9fa;
+                    padding: 2px 6px;
+                    border-radius: 3px;
+                    font-size: 11px;
+                }
+                .table-responsive {
+                    position: relative;
+                }
+                #searchInput:focus {
+                    border-color: #28a745;
+                    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+                }
+            </style>
+
+        </t>
+    </template>
+
+    <!-- ── Empty state ── -->
+    <template id="csv_viewer_empty" name="CSV Viewer - No Products">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="pt-5 pb-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2 text-center">
+                                <i class="fa fa-inbox fa-5x text-muted mb-4"></i>
+                                <h1 class="mb-3">No Products Found</h1>
+                                <p class="lead text-muted mb-4">
+                                    The category "<strong><t t-esc="category.complete_name"/></strong>"
+                                    has no products available from <t t-esc="supplier.name"/>.
+                                </p>
+                                <a href="/web" class="btn btn-primary btn-lg">
+                                    <i class="fa fa-arrow-left"></i>
+                                    Back to Odoo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_supplier_api_config" model="ir.actions.act_window">
+        <field name="name">Supplier APIs</field>
+        <field name="res_model">supplier.api.config</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_supplier_api_category_tree_all" model="ir.actions.act_window">
+        <field name="name">All Categories</field>
+        <field name="res_model">supplier.api.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_has_available': 1}</field>
+    </record>
+
+    <record id="view_supplier_api_config_tree" model="ir.ui.view">
+        <field name="name">supplier.api.config.tree</field>
+        <field name="model">supplier.api.config</field>
+        <field name="arch" type="xml">
+            <tree string="Supplier APIs" 
+                  decoration-muted="active==False">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="api_type"/>
+                <field name="country"/>
+                <field name="currency"/>
+                <field name="synced_products" string="Products in Odoo"/>
+                <field name="last_sync_date" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+                
+                <button name="action_test_connection" 
+                        string="Test" 
+                        type="object" 
+                        icon="fa-plug"
+                        class="btn-sm btn-secondary"/>
+                
+                <button name="action_fetch_categories" 
+                        string="Fetch Categories" 
+                        type="object" 
+                        icon="fa-refresh"
+                        class="btn-sm btn-primary"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_supplier_api_category_tree_full" model="ir.ui.view">
+        <field name="name">supplier.api.category.tree.full</field>
+        <field name="model">supplier.api.category</field>
+        <field name="arch" type="xml">
+            <tree string="Categories Hierarchy" 
+                  decoration-success="sync_enabled==True"
+                  decoration-primary="synced_product_count &gt; 0"
+                  decoration-muted="product_count == 0"
+                  default_order="parent_id, name">
+                
+                <field name="name" string="Category Name"/>
+               
+                <field name="synced_product_count_recursive" invisible="1"/>
+                <field name="external_id" optional="hide"/>
+                <field name="parent_id" invisible="1"/>
+                
+                <field name="product_count" string="Available" sum="Total Available"/>
+                <field name="synced_product_count" string="In Odoo" sum="Total in Odoo"/>
+                <field name="sync_enabled" string="Sync" widget="boolean_toggle"/>
+                
+                <button name="action_download_csv" 
+                        string="CSV" 
+                        type="object" 
+                        icon="fa-file-excel-o"
+                        class="btn-sm btn-info"
+                        attrs="{'invisible': [('product_count', '=', 0)]}"
+                        help="Download all products as CSV"/>
+                
+                <button name="action_preview_products" 
+                        string="Preview" 
+                        type="object" 
+                        icon="fa-search"
+                        class="btn-sm btn-info"
+                        attrs="{'invisible': [('product_count', '=', 0)]}"
+                        help="Preview products before importing"/>
+                
+                <button name="action_view_products" 
+                        string="View" 
+                        type="object" 
+                        icon="fa-cube"
+                        class="btn-sm btn-primary"
+                        attrs="{'invisible': [('synced_product_count', '=', 0)]}"
+                        help="View products in Odoo"/>
+
+             
+                <button name="action_view_products_recursive" 
+                        string="View" 
+                        type="object" 
+                        icon="fa-cube"
+                        class="btn-sm btn-primary"
+                        attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}"
+                        help="View products in Odoo"/>        
+                
+                <button name="action_sync_category_products" 
+                        string="Import" 
+                        type="object" 
+                        icon="fa-download"
+                        class="btn-sm btn-success"
+                        confirm="Import ALL products from this category?"
+                        help="Import all products"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_supplier_api_category_form" model="ir.ui.view">
+        <field name="name">supplier.api.category.form</field>
+        <field name="model">supplier.api.category</field>
+        <field name="arch" type="xml">
+            <form string="Category">
+                <header>
+                    <button name="action_preview_products" 
+                            string="Preview Products" 
+                            type="object" 
+                            class="btn-info"
+                            icon="fa-search"
+                            attrs="{'invisible': [('product_count_recursive', '=', 0)]}"/>
+                    
+                    <button name="action_download_csv" 
+                            string="Download CSV" 
+                            type="object" 
+                            class="btn-secondary"
+                            icon="fa-download"
+                            attrs="{'invisible': [('product_count_recursive', '=', 0)]}"/>
+                    
+                    <button name="action_sync_category_products" 
+                            string="Import All Products" 
+                            type="object" 
+                            class="btn-primary"
+                            confirm="Import all products from this category?"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_products" 
+                                type="object" 
+                                class="oe_stat_button" 
+                                icon="fa-cubes"
+                                attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}">
+                            <field name="synced_product_count_recursive" widget="statinfo" 
+                                   string="Already in Odoo"/>
+                        </button>
+                        
+                        <button name="action_preview_products" 
+                                type="object" 
+                                class="oe_stat_button" 
+                                icon="fa-shopping-cart"
+                                attrs="{'invisible': [('product_count_recursive', '=', 0)]}">
+                            <field name="product_count_recursive" widget="statinfo" 
+                                   string="Available at Supplier"/>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Category Name"/></h1>
+                        <h3 class="text-muted">
+                            <field name="complete_name" readonly="1"/>
+                        </h3>
+                    </div>
+                    
+                    <group>
+                        <group string="Category Information">
+                            <field name="supplier_id"/>
+                            <field name="external_id"/>
+                            <field name="parent_id"/>
+                        </group>
+                     
+                        <group string="Products &amp; Sync">
+                            <field name="product_count_recursive" string="Available at Supplier (incl. subcategories)"/>
+                            <field name="synced_product_count_recursive" string="Already in Odoo (incl. subcategories)"/>
+                            <field name="product_count" string="Available (this level only)" invisible="1"/>
+                            <field name="synced_product_count" string="In Odoo (this level only)" invisible="1"/>
+                            <field name="sync_enabled" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Category Mapping">
+                        <group>
+                            <field name="odoo_category_id" 
+                                   string="Internal Category"
+                                   placeholder="Select internal category..."/>
+                        </group>
+                        <group>
+                            <field name="public_category_id" 
+                                   string="Website Category"
+                                   placeholder="Select website category..."
+                                   help="Products will be published under this category on website"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Subcategories" 
+                              name="subcategories" 
+                              attrs="{'invisible': [('child_ids', '=', [])]}">
+                            <field name="child_ids" mode="tree">
+                                <tree decoration-success="sync_enabled==True">
+                                    <field name="name"/>
+                                  
+                                    <field name="product_count_recursive" string="Available" sum="Total"/>
+                                    <field name="synced_product_count_recursive" string="In Odoo" sum="Total"/>
+                                    <field name="sync_enabled" widget="boolean_toggle"/>
+                             
+                                    <field name="product_count" invisible="1"/>
+                                    <field name="synced_product_count" invisible="1"/>
+                                    
+                                    <button name="action_download_csv" 
+                                            string="CSV" 
+                                            type="object" 
+                                            icon="fa-download"
+                                            attrs="{'invisible': [('product_count', '=', 0)]}"/>
+                                    
+                                    <button name="action_preview_products" 
+                                            string="Preview" 
+                                            type="object" 
+                                            icon="fa-search"
+                                            attrs="{'invisible': [('product_count', '=', 0)]}"/>
+                                    
+                                    <!-- <button name="action_view_products" 
+                                            string="View" 
+                                            type="object" 
+                                            icon="fa-eye"
+                                            attrs="{'invisible': [('synced_product_count', '=', 0)]}"/> -->
+                                  
+                                    <button name="action_view_products_recursive" 
+                                            string="View" 
+                                            type="object" 
+                                            icon="fa-eye"
+                                            attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    
+    <record id="view_supplier_api_config_form" model="ir.ui.view">
+        <field name="name">supplier.api.config.form</field>
+        <field name="model">supplier.api.config</field>
+        <field name="arch" type="xml">
+            <form string="Supplier API Configuration">
+                <header>
+                    <button name="action_test_connection" 
+                            string="Test Connection" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button name="action_fetch_categories" 
+                            string="Fetch Categories" 
+                            type="object" 
+                            class="btn-secondary"/>
+                
+                    <button name="action_refresh_synced_counts"
+                           string="🔄 Refresh In Odoo Counts"
+                           type="object"
+                           class="btn-secondary"
+                           confirm="This will scan all categories and assign products to their TME categories. May take several minutes. Continue?"
+                           help="Recalculate how many products from each category are already in Odoo"/>        
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+             
+                        <button name="action_view_synced_products" 
+                                type="object" 
+                                class="oe_stat_button" 
+                                icon="fa-cubes">
+                            <field name="synced_products" widget="statinfo" 
+                                   string="Products Synced"/>
+                        </button>
+                     
+                        <!-- <button name="action_view_products_without_category" 
+                            type="object" 
+                            class="oe_stat_button" 
+                            icon="fa-exclamation-triangle"
+                            attrs="{'invisible': [('synced_products', '=', 0)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value text-warning">
+                                    <field name="products_without_category" widget="integer"/>
+                                </span>
+                                <span class="o_stat_text">Without Category</span>
+                            </div>
+                        </button> -->
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g., TME Electronics"/></h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Basic Information">
+                            <field name="api_type"/>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group string="Synchronization">
+                            <field name="last_sync_date"/>
+                            <field name="auto_sync"/>
+                        </group>
+                    </group>
+                    
+                    <group string="API Configuration">
+                        <group>
+                            <field name="api_url"/>
+                            <field name="api_key" password="True"/>
+                            <field name="api_secret" password="True"/>
+                        </group>
+                        <group>
+                            <field name="country"/>
+                            <field name="language"/>
+                            <field name="currency"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                   
+                        <page string="Categories" name="categories">
+                            <div class="alert alert-info mb-3" role="alert" 
+                                 attrs="{'invisible': [('category_ids', '=', [])]}">
+                                <button name="%(action_supplier_api_category_tree_all)d" 
+                                        string="View All Categories Tree" 
+                                        type="action" 
+                                        class="btn btn-sm btn-link p-0"/>
+                            </div>
+                            
+                            <field name="category_ids" 
+                                   domain="[('parent_id', '=', False)]"
+                                   attrs="{'invisible': [('category_ids', '=', [])]}">
+                                <tree create="false" delete="false" 
+                                      decoration-success="sync_enabled==True">
+                                    <field name="name"/>
+                                    <field name="product_count_recursive" string="Available" sum="Total"/>
+                                    <field name="synced_product_count_recursive" string="In Odoo" sum="Total"/>
+                                    <field name="sync_enabled" widget="boolean_toggle"/>
+                                    <field name="product_count" invisible="1"/>
+                                    <field name="synced_product_count" invisible="1"/>
+                                    
+                                    <button name="action_download_csv" 
+                                            string="CSV" 
+                                            type="object" 
+                                            icon="fa-file-excel-o"
+                                            class="btn-sm"
+                                            attrs="{'invisible': [('product_count', '=', 0)]}"
+                                            help="Download CSV"/>
+                                    
+                                    <button name="action_preview_products" 
+                                            string="Preview" 
+                                            type="object" 
+                                            icon="fa-search"
+                                            class="btn-sm"
+                                            attrs="{'invisible': [('product_count', '=', 0)]}"/>
+                                    
+                                    <!-- <button name="action_view_products" 
+                                            string="View" 
+                                            type="object" 
+                                            icon="fa-cube"
+                                            class="btn-sm"
+                                            attrs="{'invisible': [('synced_product_count', '=', 0)]}"/> -->
+                                 
+                                    <button name="action_view_products_recursive" 
+                                            string="View" 
+                                            type="object" 
+                                            icon="fa-cube"
+                                            class="btn-sm"
+                                            attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_supplier_api_category_search" model="ir.ui.view">
+        <field name="name">supplier.api.category.search</field>
+        <field name="model">supplier.api.category</field>
+        <field name="arch" type="xml">
+            <search string="Search Categories">
+
+             
+                <field name="name" 
+                    string="🔍 Search All (category, product, SKU, barcode)" 
+                    filter_domain="[
+                        '|', '|', '|', '|',
+                        ('name', 'ilike', self),
+                        ('complete_name', 'ilike', self),
+                        ('product_ids.name', 'ilike', self),
+                        ('product_ids.default_code', 'ilike', self),
+                        ('product_ids.barcode', 'ilike', self)
+                    ]"/>
+
+        
+                <field name="name" 
+                    string="Category Name" 
+                    filter_domain="[
+                       '|', 
+                        ('name', 'ilike', self), 
+                        ('complete_name', 'ilike', self)
+                    ]"/>
+
+             
+                <field name="name" 
+                    string="Product Name"
+                    filter_domain="[('product_ids.name', 'ilike', self)]"/>
+
+            
+                <field name="name" 
+                    string="SKU / Reference"
+                    filter_domain="[
+                        '|',
+                        ('product_ids.default_code', 'ilike', self),
+                        ('product_ids.api_external_id', 'ilike', self)
+                    ]"/>
+
+   
+                <field name="name" 
+                    string="Barcode / EAN"
+                    filter_domain="[('product_ids.barcode', 'ilike', self)]"/>
+
+                <separator/>
+
+                <filter string="Sync Enabled" 
+                    name="sync_enabled" 
+                    domain="[('sync_enabled', '=', True)]"/>
+
+                <filter string="Has Products in Odoo" 
+                    name="has_products" 
+                    domain="[('synced_product_count', '&gt;', 0)]"/>
+
+                <filter string="Has Products at Supplier" 
+                    name="has_available" 
+                    domain="[('product_count', '&gt;', 0)]"/>
+
+                <filter string="Root Categories" 
+                    name="root_only" 
+                    domain="[('parent_id', '=', False)]"/>
+
+                <separator/>
+
+                <filter string="Supplier" 
+                    name="group_supplier" 
+                    context="{'group_by': 'supplier_id'}"/>
+
+                <filter string="Parent Category" 
+                    name="group_parent" 
+                    context="{'group_by': 'parent_id'}"/>
+
+            </search>
+        </field>
+    </record>
+</odoo>
