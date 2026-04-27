@@ -31,7 +31,7 @@ Requirements
 - website_sale module
     """,
     'author': 'Soft G Co. Ltd',
-    'website': 'https://softg.dev',
+    'website': 'https://www.softg.dev',
     'license': 'OPL-1',
     'support': 'support@softg.dev',
     'depends': [
