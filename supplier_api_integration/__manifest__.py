@@ -67,6 +67,6 @@ Requirements
     'images': ['static/description/banner.gif'],
     'post_init_hook': 'post_init_hook',
     'pre_uninstall_hook': 'pre_uninstall_hook',
-    'price': 249.00,
+    'price': 229.00,
     'currency': 'EUR',
 }
