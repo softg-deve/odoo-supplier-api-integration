@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_supplier_api_config_manager,supplier.api.config.manager,model_supplier_api_config,stock.group_stock_manager,1,1,1,1
+access_supplier_api_category_user,supplier.api.category.user,model_supplier_api_category,base.group_user,1,0,0,0
+access_supplier_api_category_manager,supplier.api.category.manager,model_supplier_api_category,stock.group_stock_manager,1,1,1,1
+access_product_preview_wizard_user,product.preview.wizard.user,model_product_preview_wizard,base.group_user,1,1,1,1
+access_product_preview_wizard_line_user,product.preview.wizard.line.user,model_product_preview_wizard_line,base.group_user,1,1,1,1
+access_csv_choice_wizard_user,csv.choice.wizard.user,supplier_api_integration.model_csv_choice_wizard,base.group_user,1,1,1,1
+access_supplier_stock_info_wizard_user,supplier.stock.info.wizard.user,supplier_api_integration.model_supplier_stock_info_wizard,base.group_user,1,1,1,1
+access_product_supplierinfo_user,product.supplierinfo.user,product.model_product_supplierinfo,base.group_user,1,0,0,0

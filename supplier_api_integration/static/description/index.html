@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Supplier API Integration — The Most Powerful Catalog Sync Engine for Odoo</title>
+</head>
+<body style="margin:0; padding:0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#1e293b; line-height:1.6; background:#ffffff;">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#0a1628" style="background-color:#0a1628;">
+  <tr>
+    <td align="center" style="padding:80px 20px 70px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:880px;">
+        <tr>
+          <td align="center">
+            <!-- Version pill -->
+            <div style="display:inline-block; background-color:#1e3a5f; color:#cbd5e1; padding:8px 18px; border-radius:100px; font-size:12px; font-weight:500; letter-spacing:1px; margin-bottom:28px;">
+              <span style="color:#34d399;">●</span>&nbsp; v 2.3.2&nbsp;&nbsp;·&nbsp;&nbsp;Odoo 16+&nbsp;&nbsp;·&nbsp;&nbsp;Inventory&nbsp;·&nbsp;Website Sale&nbsp;·&nbsp;B2B
+            </div>
+
+            <h1 style="font-size:46px; font-weight:800; color:#ffffff; margin:0 0 18px 0; line-height:1.05; letter-spacing:-1px;">
+              The most powerful<br>
+              <span style="color:#60a5fa;">Supplier API Integration</span>
+            </h1>
+
+            <p style="font-size:18px; color:#cbd5e1; margin:0 auto 36px auto; max-width:680px; line-height:1.65;">
+              Sync your entire product catalog from <strong style="color:#ffffff;">any supplier API</strong> into Odoo.
+              Real-time stock &amp; pricing, smart deduplication, auto-publishing, and a live CSV viewer.
+              Set it once. Forget about it forever.
+            </p>
+
+            <!-- Feature pills -->
+            <div style="line-height:2.4;">
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">✓&nbsp; Smart Anti-Duplicate</span>
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">⏱&nbsp; Hourly Sync</span>
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">⚡&nbsp; Auto Publishing</span>
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">📊&nbsp; Live CSV Viewer</span>
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">🔌&nbsp; Custom API Adaptable</span>
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">💼&nbsp; B2B Ready</span>
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">🗑&nbsp; Auto De-list Removed Items</span>
+              <span style="display:inline-block; background-color:#1e3a5f; color:#ffffff; padding:8px 16px; border-radius:100px; font-size:13px; font-weight:500; margin:4px;">📦&nbsp; Mixed Inventory</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STAT STRIP
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border-bottom:1px solid #e2e8f0;">
+  <tr>
+    <td align="center" style="padding:50px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:900px;">
+        <tr>
+          <td width="25%" align="center" valign="top" style="padding:0 10px;">
+            <div style="font-size:48px; font-weight:800; color:#2563eb; line-height:1; margin-bottom:8px;">&#8734;</div>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#64748b; text-transform:uppercase;">Products / Sync</div>
+          </td>
+          <td width="25%" align="center" valign="top" style="padding:0 10px;">
+            <div style="font-size:48px; font-weight:800; color:#2563eb; line-height:1; margin-bottom:8px;">2</div>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#64748b; text-transform:uppercase;">Auto Cron Jobs</div>
+          </td>
+          <td width="25%" align="center" valign="top" style="padding:0 10px;">
+            <div style="font-size:48px; font-weight:800; color:#2563eb; line-height:1; margin-bottom:8px;">8+</div>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#64748b; text-transform:uppercase;">Fields Per Product</div>
+          </td>
+          <td width="25%" align="center" valign="top" style="padding:0 10px;">
+            <div style="font-size:48px; font-weight:800; color:#2563eb; line-height:1; margin-bottom:8px;">0</div>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#64748b; text-transform:uppercase;">Manual Steps</div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     8 REASONS
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td valign="bottom" style="padding-right:24px;">
+                  <span style="font-size:140px; font-weight:800; color:#2563eb; line-height:0.85; letter-spacing:-4px;">8</span>
+                </td>
+                <td valign="bottom">
+                  <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 8px 0; line-height:1.1; letter-spacing:-0.5px;">Reasons to choose<br>Supplier API Integration</h2>
+                  <p style="font-size:15px; color:#64748b; margin:0; max-width:520px;">Built by SoftG — an Odoo specialist team running and scaling real e-commerce operations.
+Every feature in this module exists because a real business needed it in production.</p>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Reasons 2x4 grid -->
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="margin-top:50px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+              <tr>
+                <td width="50%" valign="top" style="padding:30px 28px; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:10px; font-size:22px; margin-bottom:14px;">✓</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Smart Anti-Duplicate Engine</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Searches by EAN first, then SKU. Existing products are updated, never duplicated. Three matching rules cover every edge case.</p>
+                </td>
+                <td width="50%" valign="top" style="padding:30px 28px; border-bottom:1px solid #e2e8f0;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#ecfeff; color:#06b6d4; border-radius:10px; font-size:22px; margin-bottom:14px;">⏱</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Real-Time Stock &amp; Prices</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Hourly cron pulls latest stock and pricing for every imported product. Currency-aware. Multi-batch optimized for thousands of SKUs.</p>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" valign="top" style="padding:30px 28px; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#ecfdf5; color:#10b981; border-radius:10px; font-size:22px; margin-bottom:14px;">⚡</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Auto Website Publishing</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Stock above zero? Product goes live. Stock hits zero? It hides automatically. Smart logic respects "Continue Selling" overrides.</p>
+                </td>
+                <td width="50%" valign="top" style="padding:30px 28px; border-bottom:1px solid #e2e8f0;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#fffbeb; color:#f59e0b; border-radius:10px; font-size:22px; margin-bottom:14px;">📊</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Live CSV Viewer</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Browser-based product viewer that auto-refreshes every 30 seconds. Search, sort, filter, export &mdash; all in real time, no spreadsheet needed.</p>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" valign="top" style="padding:30px 28px; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#f5f3ff; color:#8b5cf6; border-radius:10px; font-size:22px; margin-bottom:14px;">👁</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Preview Before Import</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">See thumbnails, stock levels, prices, and which products already exist in Odoo &mdash; before you import a single SKU. Pick what matters.</p>
+                </td>
+                <td width="50%" valign="top" style="padding:30px 28px; border-bottom:1px solid #e2e8f0;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#fff1f2; color:#f43f5e; border-radius:10px; font-size:22px; margin-bottom:14px;">🌳</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Auto Category Mapping</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Supplier category trees rebuild automatically into Odoo public website categories &mdash; including parent hierarchy, multi-category support, and renames.</p>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" valign="top" style="padding:30px 28px; border-right:1px solid #e2e8f0;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:10px; font-size:22px; margin-bottom:14px;">📦</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Mixed Warehouse + Supplier Stock</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Customers see what's in your warehouse AND what's available remotely. Combined delivery messages, back-order support, multi-source quantities.</p>
+                </td>
+                <td width="50%" valign="top" style="padding:30px 28px;">
+                  <div style="display:inline-block; width:44px; height:44px; line-height:44px; text-align:center; background-color:#ecfdf5; color:#10b981; border-radius:10px; font-size:22px; margin-bottom:14px;">🔌</div>
+                  <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Customizable for Any API</h3>
+                  <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">TME ships out of the box. Need Mouser, Digi-Key, RS, Farnell, W&uuml;rth, Conrad &mdash; or your own private supplier? Our team adapts the connector for you.</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ANY API CALLOUT — KEY SELLING POINT
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#0f1f3d" style="background-color:#0f1f3d;">
+  <tr>
+    <td align="center" style="padding:90px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td width="55%" valign="top" style="padding-right:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#fbbf24; text-transform:uppercase; margin-bottom:14px;">★&nbsp; Built flexible &middot; Backed by experts</div>
+            <h2 style="font-size:42px; font-weight:800; color:#ffffff; margin:0 0 18px 0; line-height:1.1; letter-spacing:-0.5px;">TME today.<br><span style="color:#fbbf24;">Any supplier API tomorrow.</span></h2>
+            <p style="font-size:16px; color:#cbd5e1; margin:0 0 14px 0; line-height:1.7;">
+              The module ships with a production-ready <strong style="color:#ffffff;">TME Electronics</strong> connector &mdash;
+              HMAC-signed, batch-optimized, currency-aware. But the architecture is supplier-agnostic.
+            </p>
+            <p style="font-size:16px; color:#cbd5e1; margin:0 0 24px 0; line-height:1.7;">
+              Need to plug into a different distributor? Our team adapts the integration to your supplier's API,
+              your authentication scheme, your data model. Same automation, same reliability &mdash; connected to your supplier.
+            </p>
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td valign="top" style="padding:6px 0; color:#ffffff; font-size:14px;">
+                  <span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:50%; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>
+                  REST, SOAP, GraphQL, or proprietary protocols &mdash; all supported
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" style="padding:6px 0; color:#ffffff; font-size:14px;">
+                  <span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:50%; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>
+                  Custom authentication: HMAC, OAuth2, API keys, JWT, basic auth
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" style="padding:6px 0; color:#ffffff; font-size:14px;">
+                  <span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:50%; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>
+                  Custom field mappings, currency conversion, weight units
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" style="padding:6px 0; color:#ffffff; font-size:14px;">
+                  <span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:50%; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>
+                  Multi-supplier setups: aggregate catalogs from several APIs
+                </td>
+              </tr>
+            </table>
+          </td>
+
+          <!-- Supplier coverage card -->
+          <td width="45%" valign="top" style="padding-left:20px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#1e3a5f" style="background-color:#1e3a5f; border:1px solid #2d4a6f; border-radius:14px;">
+              <tr>
+                <td style="padding:30px;">
+                  <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:18px;">Supplier coverage</div>
+                  <h3 style="font-size:22px; font-weight:700; color:#ffffff; margin:0 0 6px 0;">Plug-in catalog</h3>
+                  <p style="font-size:13px; color:#94a3b8; margin:0 0 22px 0;">Bundled out-of-the-box, plus any API on request</p>
+
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px; margin-bottom:6px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#34d399; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">TME Electronics</span>
+                        <span style="float:right; font-size:10px; color:#34d399; letter-spacing:1px; line-height:18px;">BUILT-IN</span>
+                      </td>
+                    </tr>
+                    <tr><td style="height:6px;"></td></tr>
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#fbbf24; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">Mouser Electronics</span>
+                        <span style="float:right; font-size:10px; color:#94a3b8; letter-spacing:1px; line-height:18px;">ON REQUEST</span>
+                      </td>
+                    </tr>
+                    <tr><td style="height:6px;"></td></tr>
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#fbbf24; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">Digi-Key</span>
+                        <span style="float:right; font-size:10px; color:#94a3b8; letter-spacing:1px; line-height:18px;">ON REQUEST</span>
+                      </td>
+                    </tr>
+                    <tr><td style="height:6px;"></td></tr>
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#fbbf24; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">RS Components</span>
+                        <span style="float:right; font-size:10px; color:#94a3b8; letter-spacing:1px; line-height:18px;">ON REQUEST</span>
+                      </td>
+                    </tr>
+                    <tr><td style="height:6px;"></td></tr>
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#fbbf24; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">Farnell / Element14</span>
+                        <span style="float:right; font-size:10px; color:#94a3b8; letter-spacing:1px; line-height:18px;">ON REQUEST</span>
+                      </td>
+                    </tr>
+                    <tr><td style="height:6px;"></td></tr>
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#fbbf24; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">W&uuml;rth Elektronik</span>
+                        <span style="float:right; font-size:10px; color:#94a3b8; letter-spacing:1px; line-height:18px;">ON REQUEST</span>
+                      </td>
+                    </tr>
+                    <tr><td style="height:6px;"></td></tr>
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#fbbf24; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">Conrad Electronic</span>
+                        <span style="float:right; font-size:10px; color:#94a3b8; letter-spacing:1px; line-height:18px;">ON REQUEST</span>
+                      </td>
+                    </tr>
+                    <tr><td style="height:6px;"></td></tr>
+                    <tr>
+                      <td style="padding:9px 12px; background-color:#0f1f3d; border-radius:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; background-color:#fbbf24; border-radius:50%; vertical-align:middle; margin-right:10px;"></span>
+                        <span style="font-size:13px; font-weight:500; color:#ffffff; vertical-align:middle;">Your private API</span>
+                        <span style="float:right; font-size:10px; color:#94a3b8; letter-spacing:1px; line-height:18px;">ON REQUEST</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SETUP — 3 STEPS
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#64748b; text-transform:uppercase; margin-bottom:14px;">SETUP</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 14px 0; line-height:1.1; letter-spacing:-0.5px;">From install to your first import<br>in under 5 minutes.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 40px 0; max-width:600px;">No XML edits, no scripting. Configure once via the UI, then watch products flow into your catalog.</p>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="33%" valign="top" style="padding:0 10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb; border:1px solid #e2e8f0; border-radius:14px;">
+                    <tr>
+                      <td style="padding:28px 24px;">
+                        <div style="font-size:48px; font-weight:800; color:#2563eb; line-height:1; margin-bottom:14px; letter-spacing:-2px;">1</div>
+                        <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Open the module</h3>
+                        <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Inventory &rarr; Configuration &rarr; Suppliers API &rarr; API TME. The menu lives right where Odoo admins expect to find it.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="33%" valign="top" style="padding:0 10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb; border:1px solid #e2e8f0; border-radius:14px;">
+                    <tr>
+                      <td style="padding:28px 24px;">
+                        <div style="font-size:48px; font-weight:800; color:#8b5cf6; line-height:1; margin-bottom:14px; letter-spacing:-2px;">2</div>
+                        <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Enter credentials</h3>
+                        <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Paste your API token and app secret. Pick country, language, currency. Click <strong style="color:#0f1f3d;">Test Connection</strong> to verify in one click.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="33%" valign="top" style="padding:0 10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb; border:1px solid #e2e8f0; border-radius:14px;">
+                    <tr>
+                      <td style="padding:28px 24px;">
+                        <div style="font-size:48px; font-weight:800; color:#06b6d4; line-height:1; margin-bottom:14px; letter-spacing:-2px;">3</div>
+                        <h3 style="font-size:18px; font-weight:700; color:#0f1f3d; margin:0 0 8px 0;">Fetch &amp; import</h3>
+                        <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Click <strong style="color:#0f1f3d;">Fetch Categories</strong> to pull the supplier's full tree. Browse, preview, and import what you want.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <div style="margin-top:50px; padding:20px; background-color:#eff6ff; border-radius:16px;">
+              <img src="./screenshots/2.PNG" alt="API Configuration form" style="width:100%; height:auto; display:block; border-radius:10px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CATEGORY MANAGEMENT
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td width="48%" valign="middle" style="padding-right:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#2563eb; text-transform:uppercase; margin-bottom:14px;">Category Management</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 16px 0; line-height:1.1; letter-spacing:-0.5px;">The whole supplier catalog,<br>laid out for you.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 22px 0; line-height:1.65;">Browse the supplier's category tree with live product counts. See exactly how many items each category contains and how many you've already synced into Odoo.</p>
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#2563eb; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Recursive product counts (this category + all sub-categories)</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#2563eb; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>One-toggle sync enable/disable per category</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#2563eb; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Map supplier categories to Odoo internal &amp; website categories</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#2563eb; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Search across category names, product names, SKUs and barcodes</td></tr>
+            </table>
+          </td>
+          <td width="52%" valign="middle">
+            <div style="padding:18px; background-color:#ffffff; border-radius:14px; border:1px solid #e2e8f0;">
+              <img src="./screenshots/3.PNG" alt="Categories notebook tab with product counts" style="width:100%; height:auto; display:block; border-radius:8px;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PREVIEW WIZARD
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td width="52%" valign="middle">
+            <div style="padding:18px; background-color:#f5f3ff; border-radius:14px;">
+              <img src="./screenshots/6.PNG" alt="Product preview wizard with sale price toggle enabled" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+          <td width="48%" valign="middle" style="padding-left:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#8b5cf6; text-transform:uppercase; margin-bottom:14px;">Preview Wizard</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 16px 0; line-height:1.1; letter-spacing:-0.5px;">Preview. Select.<br>Import.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 22px 0; line-height:1.65;">Open any category and instantly see thumbnails, stock levels, cost prices, and which products already exist in your Odoo catalog. Pick exactly what you want &mdash; skip the rest.</p>
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Live image previews loaded directly from the supplier</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Already-imported items badged so you don't re-process them</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Sale price toggle: cost &times; 1.3 markup applied instantly across the wizard</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Bulk select all new, then import in one click</td></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Pricing toggle subsection -->
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px; margin-top:80px;">
+        <tr>
+          <td width="48%" valign="middle" style="padding-right:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#8b5cf6; text-transform:uppercase; margin-bottom:14px;">Pricing toggle</div>
+            <h2 style="font-size:32px; font-weight:800; color:#0f1f3d; margin:0 0 16px 0; line-height:1.15; letter-spacing:-0.5px;">Sale price: on or off?<br>Your call.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 22px 0; line-height:1.65;">Some clients want a public sale price (cost + 30%). Others want quote-on-request only. Toggle the sale-price column on or off and the change applies immediately to every product in the category.</p>
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Live retroactive update across all category products</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Saved at the category level &mdash; different rules for different ranges</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Markup configurable on request</td></tr>
+            </table>
+          </td>
+          <td width="52%" valign="middle">
+            <div style="padding:18px; background-color:#f5f3ff; border-radius:14px;">
+              <img src="./screenshots/7.PNG" alt="Preview wizard with sale price toggle disabled" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SMART ANTI-DUPLICATE
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td align="center">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#10b981; text-transform:uppercase; margin-bottom:14px;">Anti-duplicate engine</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 14px 0; line-height:1.1; letter-spacing:-0.5px;">Never create a duplicate. Ever.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 40px 0; max-width:680px; line-height:1.65;">Two-stage matching ensures every supplier item maps to the right Odoo product &mdash; even when SKUs change, barcodes get added later, or the same product was imported under a different reference.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+              <tr>
+                <td style="padding:36px 32px;">
+                  <!-- Flow steps -->
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="22%" valign="top" align="center">
+                        <div style="display:inline-block; width:48px; height:48px; line-height:48px; text-align:center; background-color:#e2e8f0; color:#475569; border-radius:12px; font-size:20px; margin-bottom:10px;">📥</div>
+                        <div style="font-size:14px; font-weight:700; color:#0f1f3d; margin-bottom:4px;">Item arrives</div>
+                        <div style="font-size:12px; color:#64748b;">From supplier API</div>
+                      </td>
+                      <td width="6%" align="center" style="color:#cbd5e1; font-size:24px; font-weight:bold;">&rarr;</td>
+                      <td width="22%" valign="top" align="center">
+                        <div style="display:inline-block; width:48px; height:48px; line-height:48px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:12px; font-size:20px; margin-bottom:10px;">🔍</div>
+                        <div style="font-size:14px; font-weight:700; color:#0f1f3d; margin-bottom:4px;">EAN match?</div>
+                        <div style="font-size:12px; color:#64748b;">Search by barcode</div>
+                      </td>
+                      <td width="6%" align="center" style="color:#cbd5e1; font-size:24px; font-weight:bold;">&rarr;</td>
+                      <td width="22%" valign="top" align="center">
+                        <div style="display:inline-block; width:48px; height:48px; line-height:48px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:12px; font-size:20px; margin-bottom:10px;">🔎</div>
+                        <div style="font-size:14px; font-weight:700; color:#0f1f3d; margin-bottom:4px;">SKU match?</div>
+                        <div style="font-size:12px; color:#64748b;">Search by code &amp; api_id</div>
+                      </td>
+                      <td width="6%" align="center" style="color:#cbd5e1; font-size:24px; font-weight:bold;">&rarr;</td>
+                      <td width="16%" valign="top" align="center">
+                        <div style="display:inline-block; width:48px; height:48px; line-height:48px; text-align:center; background-color:#ecfdf5; color:#10b981; border-radius:12px; font-size:20px; margin-bottom:10px;">✓</div>
+                        <div style="font-size:14px; font-weight:700; color:#0f1f3d; margin-bottom:4px;">Match? UPDATE</div>
+                        <div style="font-size:12px; color:#64748b;">Else CREATE</div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Three rules -->
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:32px; padding-top:28px; border-top:1px dashed #cbd5e1;">
+                    <tr>
+                      <td width="33%" align="center" style="padding:0 12px;">
+                        <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:6px;">Rule 1</div>
+                        <div style="font-size:15px; font-weight:700; color:#0f1f3d; margin-bottom:4px;">Barcode ✓ &amp; SKU ✓</div>
+                        <div style="font-size:13px; color:#10b981; font-weight:600;">&rarr; Update existing</div>
+                      </td>
+                      <td width="33%" align="center" style="padding:0 12px; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0;">
+                        <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:6px;">Rule 2</div>
+                        <div style="font-size:15px; font-weight:700; color:#0f1f3d; margin-bottom:4px;">Barcode ✓ &amp; SKU ✗</div>
+                        <div style="font-size:13px; color:#10b981; font-weight:600;">&rarr; Update existing</div>
+                      </td>
+                      <td width="33%" align="center" style="padding:0 12px;">
+                        <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:6px;">Rule 3</div>
+                        <div style="font-size:15px; font-weight:700; color:#0f1f3d; margin-bottom:4px;">Barcode ✗ &amp; SKU ✓</div>
+                        <div style="font-size:13px; color:#10b981; font-weight:600;">&rarr; Update existing</div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     AUTOMATION
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#f59e0b; text-transform:uppercase; margin-bottom:14px;">Automation</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 14px 0; line-height:1.1; letter-spacing:-0.5px;">Set it once.<br>Let it run forever.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 40px 0; max-width:600px; line-height:1.65;">Two pre-configured cron jobs keep your catalog perfectly mirrored to the supplier &mdash; without you ever logging in to refresh anything.</p>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="50%" valign="top" style="padding-right:12px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td style="padding:30px 28px;">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td style="padding-right:14px;">
+                              <div style="display:inline-block; width:50px; height:50px; line-height:50px; text-align:center; background-color:#ecfeff; color:#06b6d4; border-radius:14px; font-size:24px;">⏱</div>
+                            </td>
+                            <td valign="middle">
+                              <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#06b6d4; text-transform:uppercase; margin-bottom:2px;">Every hour</div>
+                              <div style="font-size:20px; font-weight:700; color:#0f1f3d;">Stock &amp; Price Refresh</div>
+                            </td>
+                          </tr>
+                        </table>
+                        <p style="font-size:14px; color:#64748b; margin:18px 0 18px 0; line-height:1.6;">Pulls the latest data for every imported product and pushes the changes through your inventory and pricelists. Auto-publishes on stock available, auto-unpublishes on stock out.</p>
+                        <div>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">stock_qty</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">cost_price</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">name</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">manufacturer</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">barcode</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">weight</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">photo_url</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">is_published</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="50%" valign="top" style="padding-left:12px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td style="padding:30px 28px;">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td style="padding-right:14px;">
+                              <div style="display:inline-block; width:50px; height:50px; line-height:50px; text-align:center; background-color:#f5f3ff; color:#8b5cf6; border-radius:14px; font-size:24px;">📅</div>
+                            </td>
+                            <td valign="middle">
+                              <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#8b5cf6; text-transform:uppercase; margin-bottom:2px;">Daily 2 AM</div>
+                              <div style="font-size:20px; font-weight:700; color:#0f1f3d;">Full Mirror Sync</div>
+                            </td>
+                          </tr>
+                        </table>
+                        <p style="font-size:14px; color:#64748b; margin:18px 0 18px 0; line-height:1.6;">Re-syncs the supplier's category tree, runs a full update pass on every imported product, and detects items removed from the supplier's catalog (auto-unpublishing them with a notification activity for review).</p>
+                        <div>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">category_tree</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">public_categories</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">moved_products</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">removed_products</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">image_repair</span>
+                          <span style="display:inline-block; background-color:#f7f8fb; color:#475569; padding:5px 10px; border-radius:100px; font-size:11px; font-weight:500; margin:3px; border:1px solid #e2e8f0; font-family:'Courier New',monospace;">counter_refresh</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <div style="margin-top:50px; padding:20px; background-color:#fffbeb; border-radius:16px;">
+              <img src="./screenshots/8.PNG" alt="Scheduled actions" style="width:100%; height:auto; display:block; border-radius:10px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CSV VIEWER
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td width="48%" valign="middle" style="padding-right:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#10b981; text-transform:uppercase; margin-bottom:14px;">CSV Export &amp; Live Viewer</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 16px 0; line-height:1.1; letter-spacing:-0.5px;">Your catalog. In a browser. Always live.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 22px 0; line-height:1.65;">Need a quick spreadsheet view of any category? Click CSV and choose: view every product live in the browser (refreshed every 30 seconds), or download a static snapshot. No stale data. No spreadsheet juggling.</p>
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Live viewer: instant search across symbol, name, manufacturer &amp; barcode</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Click-to-sort on any column &mdash; no configuration needed</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Auto-refresh countdown every 30 seconds &mdash; never see outdated stock</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Export visible rows as CSV file with one click</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#10b981; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>"In Odoo" badge on every imported product</td></tr>
+            </table>
+          </td>
+          <td width="52%" valign="middle">
+            <div style="padding:18px; background-color:#ffffff; border-radius:14px; border:1px solid #e2e8f0;">
+              <img src="./screenshots/9.png" alt="CSV choice wizard" style="width:100%; height:auto; display:block; border-radius:8px;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CATALOG NAVIGATION
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#2563eb; text-transform:uppercase; margin-bottom:14px;">Catalog navigation</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 14px 0; line-height:1.1; letter-spacing:-0.5px;">Find imported products<br>in seconds.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 40px 0; max-width:680px; line-height:1.65;">Once products are in Odoo, you can browse them by category, filter by API source, or jump straight from a category card to the corresponding products kanban.</p>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="50%" valign="top" style="padding-right:10px;">
+                  <div style="padding:14px; background-color:#eff6ff; border-radius:14px;">
+                    <img src="./screenshots/10.PNG" alt="Products view filtered by API category" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
+                  </div>
+                </td>
+                <td width="50%" valign="top" style="padding-left:10px;">
+                  <div style="padding:14px; background-color:#eff6ff; border-radius:14px;">
+                    <img src="./screenshots/11.PNG" alt="Inventory products list with From API TME filter" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PRODUCT FORM
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td width="48%" valign="middle" style="padding-right:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#06b6d4; text-transform:uppercase; margin-bottom:14px;">Product Form</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 16px 0; line-height:1.1; letter-spacing:-0.5px;">Smart buttons. Smart fields.<br>Smart everything.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 22px 0; line-height:1.65;">Every imported product carries supplier-specific intelligence: a Supplier Stock smart button, an On Hand button that hides virtual quantities, a Forecasted total, and a colored Go to Website button that flips green or red based on publication state.</p>
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#06b6d4; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Supplier stock tracked separately from physical warehouse</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#06b6d4; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Forecasted = On Hand + Supplier (calculated automatically)</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#06b6d4; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>API Last Sync timestamp on every record</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#06b6d4; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Manual sync button for on-demand refresh</td></tr>
+            </table>
+          </td>
+          <td width="52%" valign="middle">
+            <div style="padding:18px; background-color:#ecfeff; border-radius:14px;">
+              <img src="./screenshots/12.PNG" alt="Product form overview" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 4 sub-tabs gallery -->
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px; margin-top:50px;">
+        <tr>
+          <td width="50%" valign="top" style="padding:8px;">
+            <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#06b6d4; text-transform:uppercase; margin-bottom:10px;">General Info</div>
+            <div style="padding:12px; background-color:#ecfeff; border-radius:12px;">
+              <img src="./screenshots/13.PNG" alt="Product general info part 1" style="width:100%; height:auto; display:block; border-radius:6px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+          <td width="50%" valign="top" style="padding:8px;">
+            <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#06b6d4; text-transform:uppercase; margin-bottom:10px;">Supplier Fields</div>
+            <div style="padding:12px; background-color:#ecfeff; border-radius:12px;">
+              <img src="./screenshots/14.PNG" alt="Product general info part 2" style="width:100%; height:auto; display:block; border-radius:6px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top" style="padding:8px;">
+            <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#06b6d4; text-transform:uppercase; margin-bottom:10px;">Sales Tab</div>
+            <div style="padding:12px; background-color:#ecfeff; border-radius:12px;">
+              <img src="./screenshots/15.PNG" alt="Sales tab" style="width:100%; height:auto; display:block; border-radius:6px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+          <td width="50%" valign="top" style="padding:8px;">
+            <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#06b6d4; text-transform:uppercase; margin-bottom:10px;">Inventory Tab</div>
+            <div style="padding:12px; background-color:#ecfeff; border-radius:12px;">
+              <img src="./screenshots/16.PNG" alt="Inventory tab" style="width:100%; height:auto; display:block; border-radius:6px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     AUTO PUBLISH / UNPUBLISH
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td align="center">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#10b981; text-transform:uppercase; margin-bottom:14px;">Auto-publishing</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 14px 0; line-height:1.1; letter-spacing:-0.5px;">Stock in? Live on the website.<br>Stock out? Hidden.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 40px 0; max-width:680px; line-height:1.65;">No spreadsheet to maintain. No "out of stock" page leaking conversion. Your supplier's stock is your website's truth &mdash; every hour, on the dot.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="50%" valign="top" style="padding-right:10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td bgcolor="#10b981" style="background-color:#10b981; padding:16px 22px; color:#ffffff; font-size:16px; font-weight:700; border-top-left-radius:16px; border-top-right-radius:16px;">
+                        <span style="display:inline-block; width:10px; height:10px; background-color:#ffffff; border-radius:50%; margin-right:10px; vertical-align:middle;"></span>
+                        <span style="vertical-align:middle;">Stock &gt; 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp;Published &amp; Live</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <img src="./screenshots/17.PNG" alt="Published product" style="width:100%; height:auto; display:block;">
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="50%" valign="top" style="padding-left:10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td bgcolor="#f43f5e" style="background-color:#f43f5e; padding:16px 22px; color:#ffffff; font-size:16px; font-weight:700; border-top-left-radius:16px; border-top-right-radius:16px;">
+                        <span style="display:inline-block; width:10px; height:10px; background-color:#ffffff; border-radius:50%; margin-right:10px; vertical-align:middle;"></span>
+                        <span style="vertical-align:middle;">Stock = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp;Unpublished &amp; Hidden</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <img src="./screenshots/18.PNG" alt="Unpublished product" style="width:100%; height:auto; display:block;">
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MIXED INVENTORY 4 SCENARIOS
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td>
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#8b5cf6; text-transform:uppercase; margin-bottom:14px;">Mixed Inventory</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 14px 0; line-height:1.1; letter-spacing:-0.5px;">Warehouse stock <span style="color:#8b5cf6;">+</span><br>supplier stock = full clarity.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 40px 0; max-width:680px; line-height:1.65;">When customers see both your in-house stock and your supplier's remote stock &mdash; with proper delivery messages &mdash; conversion goes up. Four configurable scenarios cover every selling pattern.</p>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="50%" valign="top" style="padding:10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-bottom:1px solid #e2e8f0;">
+                        <span style="display:inline-block; background-color:#ecfdf5; color:#10b981; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">WAREHOUSE 0</span>
+                        <span style="display:inline-block; background-color:#ecfeff; color:#06b6d4; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">SUPPLIER 7</span>
+                        <span style="display:inline-block; background-color:#e2e8f0; color:#64748b; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px;">CONTINUE SELLING OFF</span>
+                      </td>
+                    </tr>
+                    <tr><td><img src="./screenshots/19.PNG" alt="Remote stock only" style="width:100%; height:auto; display:block;"></td></tr>
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-top:1px solid #e2e8f0; font-size:13px; color:#64748b; line-height:1.55;">Customer sees <strong style="color:#0f1f3d;">"7 units in remote stock &middot; Ship 4-8 days"</strong>. No back-orders accepted beyond what the supplier has.</td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="50%" valign="top" style="padding:10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-bottom:1px solid #e2e8f0;">
+                        <span style="display:inline-block; background-color:#ecfdf5; color:#10b981; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">WAREHOUSE 0</span>
+                        <span style="display:inline-block; background-color:#ecfeff; color:#06b6d4; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">SUPPLIER 7</span>
+                        <span style="display:inline-block; background-color:#f5f3ff; color:#8b5cf6; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px;">CONTINUE SELLING ON</span>
+                      </td>
+                    </tr>
+                    <tr><td><img src="./screenshots/20.PNG" alt="Remote stock with continue selling" style="width:100%; height:auto; display:block;"></td></tr>
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-top:1px solid #e2e8f0; font-size:13px; color:#64748b; line-height:1.55;">Customer ordered 10. Site shows <strong style="color:#0f1f3d;">7 from supplier (4-8 days) + 3 on back-order (3 weeks)</strong>.</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" valign="top" style="padding:10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-bottom:1px solid #e2e8f0;">
+                        <span style="display:inline-block; background-color:#ecfdf5; color:#10b981; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">WAREHOUSE 4</span>
+                        <span style="display:inline-block; background-color:#ecfeff; color:#06b6d4; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">SUPPLIER 7</span>
+                        <span style="display:inline-block; background-color:#e2e8f0; color:#64748b; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px;">CONTINUE SELLING OFF</span>
+                      </td>
+                    </tr>
+                    <tr><td><img src="./screenshots/21.PNG" alt="Mixed stock" style="width:100%; height:auto; display:block;"></td></tr>
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-top:1px solid #e2e8f0; font-size:13px; color:#64748b; line-height:1.55;">Two-tier display: <strong style="color:#0f1f3d;">4 fast (1-2 days) + 7 slower (4-8 days)</strong>. Customer chooses.</td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="50%" valign="top" style="padding:10px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-bottom:1px solid #e2e8f0;">
+                        <span style="display:inline-block; background-color:#ecfdf5; color:#10b981; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">WAREHOUSE 4</span>
+                        <span style="display:inline-block; background-color:#ecfeff; color:#06b6d4; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px; margin-right:6px;">SUPPLIER 7</span>
+                        <span style="display:inline-block; background-color:#f5f3ff; color:#8b5cf6; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600; letter-spacing:1px;">CONTINUE SELLING ON</span>
+                      </td>
+                    </tr>
+                    <tr><td><img src="./screenshots/22.PNG" alt="Mixed stock with continue selling" style="width:100%; height:auto; display:block;"></td></tr>
+                    <tr>
+                      <td bgcolor="#f7f8fb" style="background-color:#f7f8fb; padding:14px 18px; border-top:1px solid #e2e8f0; font-size:13px; color:#64748b; line-height:1.55;">Customer ordered 15. Site lays out <strong style="color:#0f1f3d;">4 + 7 + 4 back-order</strong>. Maximum revenue capture.</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CATEGORY DETAIL
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td width="52%" valign="middle">
+            <div style="padding:18px; background-color:#fff1f2; border-radius:14px;">
+              <img src="./screenshots/4.PNG" alt="Category detail form" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+          <td width="48%" valign="middle" style="padding-left:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#f43f5e; text-transform:uppercase; margin-bottom:14px;">Category Detail</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 16px 0; line-height:1.1; letter-spacing:-0.5px;">Every category. Every option.<br>One form.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 22px 0; line-height:1.65;">Open any category to access counters, sub-tree, mappings, and bulk actions. The full structure is one click away.</p>
+
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#f43f5e; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Internal &amp; website category mapping side by side</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#f43f5e; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Smart buttons for "Already in Odoo" and "Available at Supplier"</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#f43f5e; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>Subcategory tab with action buttons on every node</td></tr>
+              <tr><td style="padding:6px 0; color:#1e293b; font-size:14px;"><span style="display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; background-color:#f43f5e; color:#ffffff; border-radius:4px; font-size:11px; font-weight:bold; margin-right:10px;">✓</span>One-click "Import All" with confirmation prompt</td></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px; margin-top:60px;">
+        <tr>
+          <td width="48%" valign="middle" style="padding-right:30px;">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#f43f5e; text-transform:uppercase; margin-bottom:14px;">Subcategories</div>
+            <h2 style="font-size:30px; font-weight:800; color:#0f1f3d; margin:0 0 16px 0; line-height:1.15; letter-spacing:-0.5px;">Drill down without losing context.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0; line-height:1.65;">The Subcategories tab shows every child node with product counts, sync status, and one-click access to Preview, CSV, View, and Import for each one.</p>
+          </td>
+          <td width="52%" valign="middle">
+            <div style="padding:18px; background-color:#fff1f2; border-radius:14px;">
+              <img src="./screenshots/5.PNG" alt="Subcategories tab" style="width:100%; height:auto; display:block; border-radius:8px; border:1px solid #e2e8f0;">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     THEME PRIME COMPATIBLE
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb;">
+  <tr>
+    <td align="center" style="padding:60px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f5f3ff" style="background-color:#f5f3ff; border-radius:20px;">
+              <tr>
+                <td style="padding:40px 36px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td valign="middle">
+                        <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#8b5cf6; text-transform:uppercase; margin-bottom:10px;">Bonus Integration</div>
+                        <h3 style="font-size:26px; font-weight:800; color:#0f1f3d; margin:0 0 10px 0; line-height:1.15; letter-spacing:-0.5px;">Built to play nicely with Theme Prime.</h3>
+                        <p style="font-size:15px; color:#64748b; margin:0; line-height:1.65; max-width:560px;">If your store runs on Theme Prime, every imported product gets automatic label assignment ("New" for fresh imports, "In Stock" when supplier has units), proper sale_ok &amp; published flags, and respect for the theme's product configuration. Zero manual cleanup.</p>
+                      </td>
+                      <td width="220" valign="middle" align="center" style="padding-left:30px;">
+                        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff; border-radius:16px;">
+                          <tr>
+                            <td align="center" style="padding:20px 24px;">
+                              <div style="display:inline-block; width:48px; height:48px; line-height:48px; text-align:center; background-color:#8b5cf6; color:#ffffff; border-radius:14px; font-size:22px; margin-bottom:10px; font-weight:bold;">✓</div>
+                              <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:4px;">Compatible with</div>
+                              <div style="font-size:16px; font-weight:700; color:#0f1f3d;">Theme Prime</div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     QUALITY SUPPORT
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background-color:#ffffff;">
+  <tr>
+    <td align="center" style="padding:80px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:880px;">
+        <tr>
+          <td align="center">
+            <div style="font-size:11px; font-weight:600; letter-spacing:2px; color:#2563eb; text-transform:uppercase; margin-bottom:14px;">Quality Support</div>
+            <h2 style="font-size:36px; font-weight:800; color:#0f1f3d; margin:0 0 14px 0; line-height:1.1; letter-spacing:-0.5px;">Real engineers. Real responses.<br>No bots, no boilerplate.</h2>
+            <p style="font-size:16px; color:#64748b; margin:0 0 40px 0; max-width:640px; line-height:1.65;">Soft G Co. Ltd is a Cyprus-based Odoo specialist team. Whether you need help configuring TME, want a custom connector for a different supplier, or have a feature in mind &mdash; we're a message away.</p>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="50%" valign="top" style="padding:8px;">
+                  <a href="mailto:support@softg.dev" style="text-decoration:none; color:inherit;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb; border:1px solid #e2e8f0; border-radius:14px;">
+                      <tr>
+                        <td style="padding:20px;">
+                          <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td valign="middle" style="padding-right:14px;">
+                                <div style="display:inline-block; width:46px; height:46px; line-height:46px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:12px; font-size:22px;">✉</div>
+                              </td>
+                              <td valign="middle" align="left">
+                                <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:2px;">Email Support</div>
+                                <div style="font-size:14px; font-weight:600; color:#0f1f3d;">support@softg.dev</div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+                <td width="50%" valign="top" style="padding:8px;">
+                  <a href="https://softg.dev" target="_blank" style="text-decoration:none; color:inherit;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb; border:1px solid #e2e8f0; border-radius:14px;">
+                      <tr>
+                        <td style="padding:20px;">
+                          <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td valign="middle" style="padding-right:14px;">
+                                <div style="display:inline-block; width:46px; height:46px; line-height:46px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:12px; font-size:22px;">🌐</div>
+                              </td>
+                              <td valign="middle" align="left">
+                                <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:2px;">Website</div>
+                                <div style="font-size:14px; font-weight:600; color:#0f1f3d;">softg.dev</div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" valign="top" style="padding:8px;">
+                  <a href="tel:+35796699649" style="text-decoration:none; color:inherit;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb; border:1px solid #e2e8f0; border-radius:14px;">
+                      <tr>
+                        <td style="padding:20px;">
+                          <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td valign="middle" style="padding-right:14px;">
+                                <div style="display:inline-block; width:46px; height:46px; line-height:46px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:12px; font-size:22px;">☎</div>
+                              </td>
+                              <td valign="middle" align="left">
+                                <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:2px;">Phone</div>
+                                <div style="font-size:14px; font-weight:600; color:#0f1f3d;">+357 96 699 649</div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+                <td width="50%" valign="top" style="padding:8px;">
+                  <a href="mailto:support@softg.dev?subject=Custom%20API%20Connector" style="text-decoration:none; color:inherit;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f7f8fb" style="background-color:#f7f8fb; border:1px solid #e2e8f0; border-radius:14px;">
+                      <tr>
+                        <td style="padding:20px;">
+                          <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td valign="middle" style="padding-right:14px;">
+                                <div style="display:inline-block; width:46px; height:46px; line-height:46px; text-align:center; background-color:#eff6ff; color:#2563eb; border-radius:12px; font-size:22px;">⚙</div>
+                              </td>
+                              <td valign="middle" align="left">
+                                <div style="font-size:10px; font-weight:600; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:2px;">Custom Development</div>
+                                <div style="font-size:14px; font-weight:600; color:#0f1f3d;">Talk to our team</div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FINAL CTA
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#0a1628" style="background-color:#0a1628;">
+  <tr>
+    <td align="center" style="padding:90px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:760px;">
+        <tr>
+          <td align="center">
+            <h2 style="font-size:42px; font-weight:800; color:#ffffff; margin:0 0 16px 0; line-height:1.1; letter-spacing:-0.5px;">Ready to automate<br>your supplier catalog?</h2>
+            <p style="font-size:17px; color:#cbd5e1; margin:0 0 36px 0; max-width:560px; line-height:1.7;">Stop entering products by hand. Stop chasing stock spreadsheets. Stop hoping your prices are still correct. Install Supplier API Integration today.</p>
+
+            <table border="0" cellspacing="0" cellpadding="0" align="center">
+              <tr>
+                <td style="padding:0 8px;">
+                  <a href="mailto:support@softg.dev" style="display:inline-block; background-color:#ffffff; color:#0f1f3d; padding:14px 28px; border-radius:10px; font-weight:600; font-size:15px; text-decoration:none;">✉&nbsp; Contact Sales</a>
+                </td>
+                <td style="padding:0 8px;">
+                  <a href="https://softg.dev" target="_blank" style="display:inline-block; background-color:transparent; color:#ffffff; padding:13px 27px; border-radius:10px; font-weight:600; font-size:15px; text-decoration:none; border:1px solid #475569;">Visit softg.dev &nbsp;&rarr;</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════════ -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#03070f" style="background-color:#03070f;">
+  <tr>
+    <td align="center" style="padding:36px 20px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:1000px;">
+        <tr>
+          <td align="left" valign="middle">
+            <div style="font-size:18px; font-weight:700; color:#ffffff; margin-bottom:6px;">Soft G Co. Ltd</div>
+            <div style="font-size:13px; color:#94a3b8;">
+              <a href="https://softg.dev" target="_blank" style="color:#60a5fa; text-decoration:none;">softg.dev</a>
+              &nbsp;&middot;&nbsp;
+              <a href="mailto:support@softg.dev" style="color:#60a5fa; text-decoration:none;">support@softg.dev</a>
+              &nbsp;&middot;&nbsp;
+              <span>+357 96 699 649</span>
+            </div>
+          </td>
+          <td align="right" valign="middle" style="font-size:11px; color:#64748b; letter-spacing:1px;">
+            v 2.3.2&nbsp;&nbsp;&middot;&nbsp;&nbsp;Odoo 16.0+&nbsp;&nbsp;&middot;&nbsp;&nbsp;OPL-1
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
