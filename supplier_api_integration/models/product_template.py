@@ -402,7 +402,7 @@ class ProductTemplate(models.Model):
         result = super(ProductTemplate, self).unlink()
 
         if suppliers:
-            suppliers.invalidate_cache(['synced_products', 'products_without_category'])
+            suppliers.invalidate_recordset(['synced_products', 'products_without_category'])
 
         return result
 

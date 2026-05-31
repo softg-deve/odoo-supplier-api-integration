@@ -31,7 +31,7 @@
                     <notebook>
                         <page string="Supplier Details" name="suppliers">
                             <field name="supplier_info_ids" nolabel="1">
-                                <tree create="false" delete="false" edit="false">
+                                <list create="false" delete="false" edit="false">
                                     <field name="partner_id" string="Supplier"/>
                                     <field name="product_code" string="Supplier SKU"/>
                                     <field name="api_stock_quantity"
@@ -39,7 +39,7 @@
                                            decoration-success="api_stock_quantity &gt; 0"/>
                                     <field name="price" string="Cost Price"/>
                                     <field name="currency_id" invisible="1"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>

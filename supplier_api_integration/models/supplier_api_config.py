@@ -82,7 +82,7 @@ class SupplierApiConfig(models.Model):
             'name': _('Products Without Category: %s') % self.name,
             'type': 'ir.actions.act_window',
             'res_model': 'product.template',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             # 'domain': [
             #     ('supplier_id', '=', self.api_type),
             #     ('supplier_api_category_id', '=', False),
@@ -363,7 +363,9 @@ class SupplierApiConfig(models.Model):
             'default_code': symbol,
             'api_external_id': symbol,
             'barcode': barcode if barcode else False,
-            'type': 'product',
+            # 'type': 'product',
+            'type': 'consu',
+            'is_storable': True,
             'supplier_api_id': self.id,
             'supplier_api_category_id': category.id,
             'standard_price': cost_price,
@@ -439,7 +441,7 @@ class SupplierApiConfig(models.Model):
         #         'api_stock_quantity': stock,
         #     })
         #     product_record = Product.browse(product_id)
-        #     product_record.invalidate_cache(['supplier_stock_qty'])
+        #     product_record.invalidate_recordset(['supplier_stock_qty'])
         #     product_record._compute_supplier_stock()
         # except:
         #     pass
@@ -579,7 +581,7 @@ class SupplierApiConfig(models.Model):
         """Force publish a product"""
         try:
             product.sudo().write({'is_published': True})
-            product.invalidate_cache(['is_published'])
+            product.invalidate_recordset(['is_published'])
             if product.supplier_api_category_id:
                 product.supplier_api_category_id._auto_publish_category()
         except Exception as e:
@@ -589,7 +591,7 @@ class SupplierApiConfig(models.Model):
         """Force unpublish a product"""
         try:
             product.sudo().write({'is_published': False})
-            product.invalidate_cache(['is_published'])
+            product.invalidate_recordset(['is_published'])
         except Exception as e:
             _logger.error(f"Unpublish error: {str(e)}")
 
@@ -1329,7 +1331,7 @@ class SupplierApiConfig(models.Model):
             raise UserError(_('Refresh failed: %s') % str(e))
 
     
-        self.invalidate_cache(['synced_products', 'products_without_category'])
+        self.invalidate_recordset(['synced_products', 'products_without_category'])
      
         self._compute_stats()
 
@@ -1408,7 +1410,7 @@ class SupplierApiConfig(models.Model):
             'name': _('Products Synced: %s') % self.name,
             'type': 'ir.actions.act_window',
             'res_model': 'product.template',
-            'view_mode': 'kanban,tree,form',
+            'view_mode': 'kanban,list,form',
             # 'domain': [('supplier_id', '=', self.api_type)],
             # ✅ CORRECT
             'domain': [('supplier_api_id', '=', self.id)],
@@ -1669,7 +1671,7 @@ class SupplierApiConfig(models.Model):
                 # except Exception as e:
                 #     _logger.error(f"  Clean supplier info failed: {str(e)}")
 
-                supplier.invalidate_cache(['synced_products', 'products_without_category'])
+                supplier.invalidate_recordset(['synced_products', 'products_without_category'])
                 supplier.write({'last_sync_date': fields.Datetime.now()})
                 self.env.cr.commit()
                 _logger.info(f"{supplier.name} done")

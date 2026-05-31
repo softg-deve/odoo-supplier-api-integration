@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Supplier API Integration',
-    'version': '2.3.2',
+    'version': '18.0.2.3.2',
     'category': 'Inventory',
     'summary': 'Import and synchronize products from supplier APIs (TME Electronics)',
     'description': """
@@ -26,7 +26,7 @@ Key Features
 
 Requirements
 ------------
-- Odoo 16.0+
+- Odoo 18.0+
 - Python: requests, Pillow
 - website_sale module
     """,
@@ -67,6 +67,6 @@ Requirements
     'images': ['static/description/banner.gif'],
     'post_init_hook': 'post_init_hook',
     'pre_uninstall_hook': 'pre_uninstall_hook',
-    'price': 229.00,
+    'price': 242.00,
     'currency': 'EUR',
 }
