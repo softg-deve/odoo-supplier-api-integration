@@ -4,13 +4,13 @@
     <record id="action_supplier_api_config" model="ir.actions.act_window">
         <field name="name">Supplier APIs</field>
         <field name="res_model">supplier.api.config</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="action_supplier_api_category_tree_all" model="ir.actions.act_window">
         <field name="name">All Categories</field>
         <field name="res_model">supplier.api.category</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_has_available': 1}</field>
     </record>
 
@@ -18,7 +18,7 @@
         <field name="name">supplier.api.config.tree</field>
         <field name="model">supplier.api.config</field>
         <field name="arch" type="xml">
-            <tree string="Supplier APIs" 
+            <list string="Supplier APIs" 
                   decoration-muted="active==False">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
@@ -40,7 +40,7 @@
                         type="object" 
                         icon="fa-refresh"
                         class="btn-sm btn-primary"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -48,28 +48,32 @@
         <field name="name">supplier.api.category.tree.full</field>
         <field name="model">supplier.api.category</field>
         <field name="arch" type="xml">
-            <tree string="Categories Hierarchy" 
+           
+            <list string="Categories Hierarchy" 
                   decoration-success="sync_enabled==True"
-                  decoration-primary="synced_product_count &gt; 0"
+                  decoration-primary="synced_product_count_recursive &gt; 0"
                   decoration-muted="product_count == 0"
                   default_order="parent_id, name">
-                
+            
                 <field name="name" string="Category Name"/>
-               
-                <field name="synced_product_count_recursive" invisible="1"/>
                 <field name="external_id" optional="hide"/>
-                <field name="parent_id" invisible="1"/>
-                
+                <field name="parent_id" column_invisible="True"/>
+            
                 <field name="product_count" string="Available" sum="Total Available"/>
-                <field name="synced_product_count" string="In Odoo" sum="Total in Odoo"/>
+
+            
+                <field name="synced_product_count_recursive" string="In Odoo" sum="Total in Odoo"/>
+            
                 <field name="sync_enabled" string="Sync" widget="boolean_toggle"/>
-                
+
+                <field name="synced_product_count" column_invisible="True"/>
+
                 <button name="action_download_csv" 
                         string="CSV" 
                         type="object" 
                         icon="fa-file-excel-o"
                         class="btn-sm btn-info"
-                        attrs="{'invisible': [('product_count', '=', 0)]}"
+                        invisible="product_count == 0"
                         help="Download all products as CSV"/>
                 
                 <button name="action_preview_products" 
@@ -77,24 +81,16 @@
                         type="object" 
                         icon="fa-search"
                         class="btn-sm btn-info"
-                        attrs="{'invisible': [('product_count', '=', 0)]}"
+                        invisible="product_count == 0"
                         help="Preview products before importing"/>
                 
-                <button name="action_view_products" 
-                        string="View" 
-                        type="object" 
-                        icon="fa-cube"
-                        class="btn-sm btn-primary"
-                        attrs="{'invisible': [('synced_product_count', '=', 0)]}"
-                        help="View products in Odoo"/>
-
              
                 <button name="action_view_products_recursive" 
                         string="View" 
                         type="object" 
                         icon="fa-cube"
                         class="btn-sm btn-primary"
-                        attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}"
+                        invisible="synced_product_count_recursive == 0"
                         help="View products in Odoo"/>        
                 
                 <button name="action_sync_category_products" 
@@ -104,7 +100,7 @@
                         class="btn-sm btn-success"
                         confirm="Import ALL products from this category?"
                         help="Import all products"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -119,14 +115,14 @@
                             type="object" 
                             class="btn-info"
                             icon="fa-search"
-                            attrs="{'invisible': [('product_count_recursive', '=', 0)]}"/>
+                             invisible="product_count_recursive == 0"/>
                     
                     <button name="action_download_csv" 
                             string="Download CSV" 
                             type="object" 
                             class="btn-secondary"
                             icon="fa-download"
-                            attrs="{'invisible': [('product_count_recursive', '=', 0)]}"/>
+                            invisible="product_count_recursive == 0"/>
                     
                     <button name="action_sync_category_products" 
                             string="Import All Products" 
@@ -141,7 +137,8 @@
                                 type="object" 
                                 class="oe_stat_button" 
                                 icon="fa-cubes"
-                                attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}">
+                                invisible="synced_product_count_recursive == 0">
+
                             <field name="synced_product_count_recursive" widget="statinfo" 
                                    string="Already in Odoo"/>
                         </button>
@@ -150,7 +147,8 @@
                                 type="object" 
                                 class="oe_stat_button" 
                                 icon="fa-shopping-cart"
-                                attrs="{'invisible': [('product_count_recursive', '=', 0)]}">
+                                invisible="product_count_recursive == 0">
+                                
                             <field name="product_count_recursive" widget="statinfo" 
                                    string="Available at Supplier"/>
                         </button>
@@ -196,42 +194,38 @@
                     <notebook>
                         <page string="Subcategories" 
                               name="subcategories" 
-                              attrs="{'invisible': [('child_ids', '=', [])]}">
-                            <field name="child_ids" mode="tree">
-                                <tree decoration-success="sync_enabled==True">
+                              invisible="child_ids == []">
+                            <field name="child_ids" mode="list">
+                                <list decoration-success="sync_enabled==True">
                                     <field name="name"/>
                                   
                                     <field name="product_count_recursive" string="Available" sum="Total"/>
                                     <field name="synced_product_count_recursive" string="In Odoo" sum="Total"/>
                                     <field name="sync_enabled" widget="boolean_toggle"/>
                              
-                                    <field name="product_count" invisible="1"/>
-                                    <field name="synced_product_count" invisible="1"/>
+                                    <field name="product_count" column_invisible="True"/>
+                                    <field name="synced_product_count" column_invisible="True"/>
                                     
                                     <button name="action_download_csv" 
                                             string="CSV" 
                                             type="object" 
                                             icon="fa-download"
-                                            attrs="{'invisible': [('product_count', '=', 0)]}"/>
+                                            invisible="product_count == 0"/>
                                     
                                     <button name="action_preview_products" 
                                             string="Preview" 
                                             type="object" 
                                             icon="fa-search"
-                                            attrs="{'invisible': [('product_count', '=', 0)]}"/>
+                                            invisible="product_count == 0"/>
                                     
-                                    <!-- <button name="action_view_products" 
-                                            string="View" 
-                                            type="object" 
-                                            icon="fa-eye"
-                                            attrs="{'invisible': [('synced_product_count', '=', 0)]}"/> -->
                                   
+                
                                     <button name="action_view_products_recursive" 
                                             string="View" 
                                             type="object" 
                                             icon="fa-eye"
-                                            attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}"/>
-                                </tree>
+                                            invisible="synced_product_count_recursive == 0"/>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -275,18 +269,7 @@
                                    string="Products Synced"/>
                         </button>
                      
-                        <!-- <button name="action_view_products_without_category" 
-                            type="object" 
-                            class="oe_stat_button" 
-                            icon="fa-exclamation-triangle"
-                            attrs="{'invisible': [('synced_products', '=', 0)]}">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value text-warning">
-                                    <field name="products_without_category" widget="integer"/>
-                                </span>
-                                <span class="o_stat_text">Without Category</span>
-                            </div>
-                        </button> -->
+                       
                     </div>
                     
                     <div class="oe_title">
@@ -322,7 +305,7 @@
                    
                         <page string="Categories" name="categories">
                             <div class="alert alert-info mb-3" role="alert" 
-                                 attrs="{'invisible': [('category_ids', '=', [])]}">
+                                 invisible="not category_ids">
                                 <button name="%(action_supplier_api_category_tree_all)d" 
                                         string="View All Categories Tree" 
                                         type="action" 
@@ -331,22 +314,22 @@
                             
                             <field name="category_ids" 
                                    domain="[('parent_id', '=', False)]"
-                                   attrs="{'invisible': [('category_ids', '=', [])]}">
-                                <tree create="false" delete="false" 
+                                   invisible="not category_ids">
+                                <list create="false" delete="false" 
                                       decoration-success="sync_enabled==True">
                                     <field name="name"/>
                                     <field name="product_count_recursive" string="Available" sum="Total"/>
                                     <field name="synced_product_count_recursive" string="In Odoo" sum="Total"/>
                                     <field name="sync_enabled" widget="boolean_toggle"/>
-                                    <field name="product_count" invisible="1"/>
-                                    <field name="synced_product_count" invisible="1"/>
+                                    <field name="product_count" column_invisible="True"/>
+                                    <field name="synced_product_count" column_invisible="True"/>
                                     
                                     <button name="action_download_csv" 
                                             string="CSV" 
                                             type="object" 
                                             icon="fa-file-excel-o"
                                             class="btn-sm"
-                                            attrs="{'invisible': [('product_count', '=', 0)]}"
+                                            invisible="product_count == 0"
                                             help="Download CSV"/>
                                     
                                     <button name="action_preview_products" 
@@ -354,22 +337,17 @@
                                             type="object" 
                                             icon="fa-search"
                                             class="btn-sm"
-                                            attrs="{'invisible': [('product_count', '=', 0)]}"/>
+                                            invisible="product_count == 0"/>
                                     
-                                    <!-- <button name="action_view_products" 
-                                            string="View" 
-                                            type="object" 
-                                            icon="fa-cube"
-                                            class="btn-sm"
-                                            attrs="{'invisible': [('synced_product_count', '=', 0)]}"/> -->
+                                   
                                  
                                     <button name="action_view_products_recursive" 
                                             string="View" 
                                             type="object" 
                                             icon="fa-cube"
                                             class="btn-sm"
-                                            attrs="{'invisible': [('synced_product_count_recursive', '=', 0)]}"/>
-                                </tree>
+                                            invisible="synced_product_count_recursive == 0"/>
+                                </list>
                             </field>
                         </page>
                     </notebook>

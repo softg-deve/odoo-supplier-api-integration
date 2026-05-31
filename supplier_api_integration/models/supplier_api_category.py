@@ -315,7 +315,7 @@ class SupplierApiCategory(models.Model):
             'name': _('Products: %s') % self.name,
             'type': 'ir.actions.act_window',
             'res_model': 'product.template',
-            'view_mode': 'kanban,tree,form',
+            'view_mode': 'kanban,list,form',
             'domain': [('supplier_api_category_id', '=', self.id)],
         }
 
@@ -500,6 +500,6 @@ class SupplierApiCategory(models.Model):
             'name': _('Products: %s (incl. subcategories)') % self.complete_name,
             'type': 'ir.actions.act_window',
             'res_model': 'product.template',
-            'view_mode': 'kanban,tree,form',
+            'view_mode': 'kanban,list,form',
             'domain': [('supplier_api_category_id', 'in', all_cat_ids)],
         }        

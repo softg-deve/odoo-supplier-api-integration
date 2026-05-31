@@ -52,16 +52,6 @@ class ProductPreviewWizard(models.TransientModel):
             'flags': {'mode': 'edit'},
         }
 
-    # def write(self, vals):
-    #     """Override write to detect show_sale_price changes"""
-    #     result = super(ProductPreviewWizard, self).write(vals)
-
-    #     if 'show_sale_price' in vals:
-    #         for wizard in self:
-    #             if wizard.category_id and wizard.existing_products > 0:
-    #                 wizard._apply_pricing_immediately()
-
-    #     return result
     def write(self, vals):
         """Override write to detect show_sale_price changes"""
         result = super(ProductPreviewWizard, self).write(vals)
@@ -73,62 +63,13 @@ class ProductPreviewWizard(models.TransientModel):
 
         return result
 
-    # def _apply_pricing_immediately(self):
-    #     """Apply pricing changes IMMEDIATELY to existing products"""
-    #     self.ensure_one()
-
-    #     self.category_id.write({'show_sale_price': self.show_sale_price})
-
-    #     Product = self.env['product.template']
-    #     existing_products = Product.search([
-    #         ('supplier_api_category_id', '=', self.category_id.id)
-    #     ])
-
-    #     if not existing_products:
-    #         return
-
-    #     updated_count = 0
-
-    #     _logger.info("=" * 80)
-    #     _logger.info(f"AUTO-UPDATE: {len(existing_products)} products")
-    #     _logger.info(f"Toggle: {'ON' if self.show_sale_price else 'OFF'}")
-    #     _logger.info("=" * 80)
-
-    #     for product in existing_products:
-    #         try:
-    #             cost_price = product.standard_price
-
-    #             if self.show_sale_price:
-    #                 if cost_price > 0:
-    #                     new_sale_price = cost_price * 1.3
-    #                     product.sudo().write({'list_price': new_sale_price})
-    #                     _logger.info(f"  {product.default_code}: {new_sale_price}")
-    #                     updated_count += 1
-    #             else:
-    #                 product.sudo().write({'list_price': 0.0})
-    #                 _logger.info(f"  {product.default_code}: 0")
-    #                 updated_count += 1
-
-    #             wizard_line = self.line_ids.filtered(
-    #                 lambda l: l.exists_in_odoo and l.odoo_product_id == product and l.photo_url
-    #             )
-
-    #             if wizard_line and not product.image_url:
-    #                 product.sudo().write({'image_url': wizard_line[0].photo_url})
-    #                 _logger.info(f"  image_url set for {product.default_code}")
-
-    #         except Exception as e:
-    #             _logger.error(f"  Error: {str(e)}")
-    #             continue
-
-    #     self.env.cr.commit()
-    #     _logger.info(f"Auto-updated {updated_count} products")
+   
     
     def _apply_pricing_immediately(self):
         """Apply pricing changes IMMEDIATELY to existing products"""
         self.ensure_one()
 
-        # Sauvegarder la valeur sur la catégorie
+       
         self.category_id.write({'show_sale_price': self.show_sale_price})
 
        
@@ -234,8 +175,8 @@ class ProductPreviewWizard(models.TransientModel):
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
                     'params': {
-                        'title': _('Configuration Error'),
-                        'message': _('Supplier Warehouse location not configured!'),
+                        'title': _('Already Imported'),
+                        'message': _('All products in this category are already in Odoo.'),
                         'type': 'warning',
                     }
                 }
@@ -391,7 +332,7 @@ class ProductPreviewWizard(models.TransientModel):
             )
             self.env.cr.commit()
 
-            self.supplier_id.invalidate_cache(['synced_products', 'products_without_category'])
+            self.supplier_id.invalidate_recordset(['synced_products', 'products_without_category'])
 
             total = len(imported_ids) + len(updated_ids)
 
@@ -407,7 +348,7 @@ class ProductPreviewWizard(models.TransientModel):
                     'type': 'ir.actions.act_window',
                     'name': _('New Products Imported (%d)') % len(imported_ids),
                     'res_model': 'product.template',
-                    'view_mode': 'kanban,tree,form',
+                    'view_mode': 'kanban,list,form',
                     'domain': [('id', 'in', imported_ids)],
                     'context': {'search_default_from_api': 1},
                     'target': 'current',

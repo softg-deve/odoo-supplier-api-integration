@@ -58,7 +58,7 @@
                     <notebook>
                         <page string="📦 Products Preview" name="products">
                             <field name="line_ids" nolabel="1">
-                                <tree decoration-success="selected==True" 
+                                <list decoration-success="selected==True" 
                                       decoration-muted="exists_in_odoo==True"
                                       create="false" delete="false">
                                     
@@ -70,14 +70,14 @@
                                     
                                     <field name="selected" 
                                            widget="boolean_toggle"
-                                           attrs="{'readonly': [('exists_in_odoo', '=', True)]}"/>
+                                           readonly="exists_in_odoo == True"/>
                                     
                                     <button name="action_open_product" 
                                             string="Open" 
                                             type="object" 
                                             icon="fa-external-link"
                                             class="btn-link"
-                                            attrs="{'invisible': [('exists_in_odoo', '=', False)]}"/>
+                                            invisible="exists_in_odoo == False"/>
                                     
                                     <field name="symbol"/>
                                     <field name="name"/>
@@ -96,17 +96,17 @@
                                            decoration-muted="sale_price == 0"
                                            decoration-success="sale_price &gt; 0"/>
                                     
-                                    <field name="currency" invisible="1"/>
+                                    <field name="currency" column_invisible="True"/>
                                     
                                     <field name="stock_quantity" 
                                            string="📦 Stock"
                                            decoration-success="stock_quantity &gt; 0"
                                            decoration-danger="stock_quantity == 0"/>
                                     
-                                    <field name="photo_url" invisible="1"/>
-                                    <field name="odoo_product_id" invisible="1"/>
+                                    <field name="photo_url" column_invisible="True"/>
+                                    <field name="odoo_product_id" column_invisible="True"/>
                                     
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         

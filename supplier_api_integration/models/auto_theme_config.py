@@ -59,7 +59,8 @@ class ProductTemplateThemeAuto(models.Model):
             if not self.sale_ok:
                 updates['sale_ok'] = True
 
-            if not self.dr_label_id:
+            # Check if dr_label_id field exists (theme_prime installed)
+            if 'dr_label_id' in self._fields and not self.dr_label_id:
                 Label = self.env['dr.product.label']
 
                 if self.create_date:
@@ -94,11 +95,33 @@ class SupplierApiConfigThemeAuto(models.Model):
         help="Automatically apply theme_prime features to imported products (if installed)"
     )
 
-    default_product_label_id = fields.Many2one(
-        'dr.product.label',
-        string='Default Product Label',
-        help="Label to apply to all imported products from this supplier (requires theme_prime)"
-    )
+    
+    def _add_theme_fields(self):
+        """Dynamically add theme_prime fields if module is installed"""
+        if not hasattr(self, '_theme_fields_added'):
+            self._theme_fields_added = True
+            
+            
+            theme_installed = self.env['ir.module.module'].search([
+                ('name', '=', 'theme_prime'),
+                ('state', '=', 'installed')
+            ], limit=1)
+            
+            if theme_installed:
+                
+                if 'default_product_label_id' not in self._fields:
+                    self._add_field('default_product_label_id', fields.Many2one(
+                        'dr.product.label',
+                        string='Default Product Label',
+                        help="Label to apply to all imported products from this supplier (requires theme_prime)"
+                    ))
+
+    @api.model
+    def _setup_complete(self):
+        """Called after all models are loaded"""
+        result = super()._setup_complete()
+        self._add_theme_fields()
+        return result
 
     def _create_new_product(self, product_data, partner, category, public_category=None, show_sale_price=False):
         """
@@ -115,9 +138,11 @@ class SupplierApiConfigThemeAuto(models.Model):
             product = self.env['product.template'].browse(product_id)
 
             if product._is_theme_prime_installed():
-
-                if self.default_product_label_id and not product.dr_label_id:
-                    product.sudo().write({'dr_label_id': self.default_product_label_id.id})
+                
+                default_label = getattr(self, 'default_product_label_id', None)
+                
+                if default_label and 'dr_label_id' in product._fields and not product.dr_label_id:
+                    product.sudo().write({'dr_label_id': default_label.id})
 
                 product._apply_theme_prime_features()
             else:
