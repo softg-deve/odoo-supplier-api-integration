@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Supplier API Integration',
+    'name': 'API Synchronization',
     'version': '19.0.2.3.2',
     'category': 'Inventory',
     'summary': 'Import and synchronize products from supplier APIs (TME Electronics)',
