@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Stock Synchronization | Supplier API Integration | stock sync',
+    'name': 'Supplier API Integration',
     'version': '2.3.2',
     'category': 'Inventory',
     'summary': 'Import and synchronize products from supplier APIs (TME Electronics)',
